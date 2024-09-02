@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 100
+
+
+typedef struct {
+    int items[MAX_SIZE];
+    int size;
+}
+List;
+
+
+void initializeList(List* list)
+{
+    list->size = 0;
+}
+
+
+int insertItem(List* list, int value)
+{
+    if (list->size == MAX_SIZE)
+    {
+        printf("ERRO: A Lista está cheia.\n");
+        return -1;
+    }
+
+    list->items[list->size] = value;
+    list->size++;
+
+    return 0;
+}
+
+
+int removeItem(List* list, int index)
+{
+    if (index < 0 || index >= list->size)
+    {
+        printf("ERRO: Índice inválido.\n");
+        return -1;
+    }
+
+    for (int i = index; i < list->size - 1; i++)
+    {
+        list->items[i] = list->items[i + 1];
+    }
+    list->size--;
+
+    return 0;
+}
+
+
+int getItem(List* list, int index)
+{
+    if (index < 0 || index >= list->size)
+    {
+        printf("ERRO: Índice inválido.\n");
+        return -1;
+    }
+
+    return list->items[index];
+}
+
+
+void printList(List* list)
+{
+    for (int i = 0; i < list->size; i++)
+    {
+        printf("%d ", list->items[i]);
+    }
+    printf("\n");
+}
+
+int main(void)
+{
+    List myList;
+    initializeList(&myList);
+
+    insertItem(&myList, 10);
+    insertItem(&myList, 20);
+    insertItem(&myList, 30);
+
+    printf("Lista após inserções: ");
+    printList(&myList);
+
+    removeItem(&myList, 1);
+
+    printf("Lista após remoção: ");
+    printList(&myList);
+
+    int item = getItem(&myList, 1);
+    printf("Elemento no índice 1: %d\n", item);
+
+    return 0;
+}
